@@ -4,8 +4,9 @@ import { FaPhoneAlt } from "react-icons/fa";
 
 const Header = () => {
   return (
-    <header className="w-full max-w-[1360px] bg-transparent flex items-center justify-between  py-4 md:py-6 px-4 md:px-0">
-      {/* Logo */}
+    <header className="w-full bg-transparent">
+    <div className=" max-w-[1360px] flex items-center justify-between  py-4 md:py-6 px-4 md:px-0 m-auto">
+          {/* Logo */}
       <div className="flex items-center">
         <img src={rimacLogo} alt="Rimac Seguros" className="h-6 md:h-8" />
       </div>
@@ -18,6 +19,7 @@ const Header = () => {
           <span className="font-semibold text-lg">(01) 411 6001</span>
         </div>
       </div>
+    </div>
     </header>
   );
 };

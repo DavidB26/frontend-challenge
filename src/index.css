@@ -12,6 +12,7 @@ body{
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  background: rgba(250, 251, 255, 1);
 }
 
 .form-home {

@@ -16,7 +16,7 @@ const Home = () => {
     const validateDocumento = (tipo, value) => {
         if (tipo === "DNI") return /^\d{8}$/.test(value);
         if (tipo === "CE") return /^[A-Za-z0-9]{1,9}$/.test(value);
-        return /^[A-Za-z0-9]{1,10}$/.test(value); // PAS
+        return /^[A-Za-z0-9]{1,10}$/.test(value); 
     };
     const validateCelular = (value) => /^\d{9}$/.test(value);
 
@@ -29,10 +29,9 @@ const Home = () => {
             let regex;
             if (tipo === "DNI") regex = /^\d{0,8}$/;
             else if (tipo === "CE") regex = /^[A-Za-z0-9]{0,9}$/;
-            else regex = /^[A-Za-z0-9]{0,10}$/; // PAS
+            else regex = /^[A-Za-z0-9]{0,10}$/; 
 
-            if (!regex.test(value)) return; // evita escribir caracteres no válidos
-
+            if (!regex.test(value)) return; 
             setErrors({
                 ...errors,
                 dni: value === "" ? false : !validateDocumento(tipo, value),
@@ -75,11 +74,28 @@ const Home = () => {
             setError("Por favor completa todos los campos y acepta los términos.");
             return;
         }
+
+        // Validación estricta para acceso
+        if (tipo !== "DNI" || formData.dni !== "30216147" || formData.celular !== "130216147") {
+            setError("El documento o celular ingresado no es válido.");
+            return;
+        }
+
         setError("");
 
         try {
-            const res = await fetch("/user");
+            const res = await fetch("https://rimac-front-end-challenge.netlify.app/api/user.json");
             const data = await res.json();
+
+            // Calcular edad a partir del birthDay del usuario
+            const birthDateParts = data.birthDay.split("-");
+            const birthDate = new Date(birthDateParts[2], birthDateParts[1] - 1, birthDateParts[0]);
+            const today = new Date();
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const m = today.getMonth() - birthDate.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
 
             localStorage.setItem(
                 "userData",
@@ -87,9 +103,10 @@ const Home = () => {
                     ...data,
                     dni: formData.dni,
                     celular: formData.celular,
+                    age,
                 })
             );
-
+            window.location.href = "/planes";
         } catch (error) {
             console.error("Error al obtener el usuario:", error);
             setError("Error al conectar con el servidor.");
@@ -97,7 +114,7 @@ const Home = () => {
     };
 
     return (
-        <Layout>
+        <Layout showProgress={false}>
             <section className="relative flex flex-col items-center justify-center bg-[rgba(248,249,255,1)] px-0 py-8 md:py-0 md:flex-row md:px-6">
                 <div className="flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8 mx-auto">
 
@@ -180,7 +197,7 @@ const Home = () => {
     ${formData.dni
                                                     ? "top-[5px] text-xs text-[rgba(94,100,136,1)]"
                                                     : "top-1/2 -translate-y-1/2 text-base text-[rgba(3,5,15,1)]"} 
-    peer-focus:top-[5px] peer-focus:text-xs peer-focus:text-[rgba(94,100,136,1)]`}
+    peer-focus:top-[5px] focus:top[12px] peer-focus:text-xs peer-focus:text-[rgba(94,100,136,1)]`}
                                         >Nro. de documento
                                         </label>
                                         {errors.dni && (
