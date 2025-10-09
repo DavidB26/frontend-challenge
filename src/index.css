@@ -24,6 +24,10 @@ body{
   overflow: hidden;
 }
 
+.form-home--compact {
+  padding: 0; 
+}
+
 @media (max-width: 768px) {
   .form-home {
     padding: 0;

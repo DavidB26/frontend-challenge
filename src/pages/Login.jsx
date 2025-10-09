@@ -101,12 +101,14 @@ const Home = () => {
                 "userData",
                 JSON.stringify({
                     ...data,
+                    name: data.name, // para usar en Plans
+                    nameComplete: `${data.name} ${data.lastName}`, // para usar en Summary
                     dni: formData.dni,
                     celular: formData.celular,
                     age,
                 })
             );
-            window.location.href = "/planes";
+            window.location.href = "/plans";
         } catch (error) {
             console.error("Error al obtener el usuario:", error);
             setError("Error al conectar con el servidor.");
