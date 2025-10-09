@@ -1,16 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
-body #root {
-  position: inherit;
-  display: inherit;
-  flex-direction: inherit;
-  min-height: inherit;
+/* Variables globales */
+:root {
+  --font-primary: 'Inter', sans-serif;
 }
 
-body{
+body {
   position: relative;
   display: flex;
   flex-direction: column;
+  font-family: var(--font-primary);
   min-height: 100vh;
   background: rgba(250, 251, 255, 1);
 }

@@ -6,6 +6,27 @@ import Layout from "../components/Layout";
 
 const Summary = () => {
   const navigate = useNavigate();
+
+  // Bloquear navegación hacia atrás (versión mejorada)
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      event.preventDefault();
+      event.returnValue = ""; // muestra aviso en caso de recarga
+    };
+
+    const handlePopState = (event) => {
+      event.preventDefault();
+      navigate("/plans", { replace: true }); // redirige al flujo correcto
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    window.addEventListener("popstate", handlePopState);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, [navigate]);
   const [user, setUser] = useState(null);
   const [selectedPlan, setSelectedPlan] = useState(null);
 

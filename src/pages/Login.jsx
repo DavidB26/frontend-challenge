@@ -117,7 +117,22 @@ const Home = () => {
 
     return (
         <Layout showProgress={false}>
-            <section className="relative flex flex-col items-center justify-center bg-[rgba(248,249,255,1)] px-0 py-8 md:py-0 md:flex-row md:px-6">
+            {/* Blob morado (mobile abajo-izquierda, desktop abajo-izquierda grande) */}
+            <div
+              className="absolute z-0 rounded-full opacity-70 pointer-events-none
+  bottom-[-80px] left-[-100px] w-[220px] h-[220px] blur-[120px]
+  md:bottom-[-10%] md:left-[-20%] md:w-[420px] md:h-[420px] md:blur-[140px]"
+              style={{ background: "#6d00f4" }}
+            />
+
+            {/* Blob verde (mobile arriba-derecha pequeño, desktop centro-derecha grande) */}
+            <div
+              className="absolute hidden md:block z-0 rounded-full opacity-70 pointer-events-none
+  top-[20px] right-[-40px] w-[180px] h-[180px] blur-[110px]
+  md:top-[260px] md:right-[-120px] md:w-[400px] md:h-[400px] md:blur-[130px]"
+              style={{ background: "#00e0b4" }}
+            />
+            <section className="relative flex flex-col items-center justify-center bg-transparent px-0 py-8 md:py-0 md:flex-row md:px-6">
                 <div className="flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8 mx-auto">
 
                     <div className="w-[480px] max-h-[560px] relative z-10 mb-6 md:mb-0 md:block hidden">
@@ -197,9 +212,9 @@ const Home = () => {
                                             htmlFor="dni"
                                             className={`pointer-events-none absolute left-4 transition-all text-sm 
     ${formData.dni
-                                                    ? "top-[5px] text-xs text-[rgba(94,100,136,1)]"
-                                                    : "top-1/2 -translate-y-1/2 text-base text-[rgba(3,5,15,1)]"} 
-    peer-focus:top-[5px] focus:top[12px] peer-focus:text-xs peer-focus:text-[rgba(94,100,136,1)]`}
+        ? "top-[5px] text-xs text-[rgba(94,100,136,1)] translate-y-0"
+        : "top-1/2 -translate-y-1/2 text-base text-[rgba(3,5,15,1)]"} 
+    peer-focus:top-[5px] peer-focus:text-xs peer-focus:text-[rgba(94,100,136,1)] peer-focus:translate-y-0`}
                                         >Nro. de documento
                                         </label>
                                         {errors.dni && (
@@ -224,9 +239,9 @@ const Home = () => {
                                         htmlFor="celular"
                                         className={`pointer-events-none absolute left-4 transition-all text-sm 
     ${formData.celular
-                                                ? "top-[5px] text-xs text-[rgba(94,100,136,1)]"
-                                                : "top-1/2 -translate-y-1/2 text-base text-[rgba(3,5,15,1)]"} 
-    peer-focus:top-[5px] peer-focus:text-xs peer-focus:text-[rgba(94,100,136,1)]`}
+        ? "top-[5px] text-xs text-[rgba(94,100,136,1)] translate-y-0"
+        : "top-1/2 -translate-y-1/2 text-base text-[rgba(3,5,15,1)]"} 
+    peer-focus:top-[5px] peer-focus:text-xs peer-focus:text-[rgba(94,100,136,1)] peer-focus:translate-y-0`}
                                     >
                                         Celular
                                     </label>

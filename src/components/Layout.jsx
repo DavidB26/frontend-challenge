@@ -15,7 +15,7 @@ const Layout = ({ children, showFooter = true, showProgress = false, currentStep
       <Header />
       {showProgress && <ProgressBar currentStep={step} />}
   
-      <main className={`form-home ${isPlansOrSummary ? "form-home--compact" : ""} relative flex-grow flex items-center justify-center  mx-auto w-full md:w-[1360px] form-home`}>
+      <main className={`form-home ${isPlansOrSummary ? "form-home--compact" : ""} relative flex-grow flex items-center justify-center  mx-auto w-full form-home`}>
         {children}
       </main>
 
