@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Layout from "../components/Layout";
 import { MdKeyboardArrowDown } from "react-icons/md";
+import imgFamily from "../assets/img-family.webp";
 
 const Home = () => {
     const [formData, setFormData] = useState({
@@ -137,7 +138,7 @@ const Home = () => {
 
                     <div className="w-[480px] max-h-[560px] relative z-10 mb-6 md:mb-0 md:block hidden">
                         <img
-                            src="/src/assets/img-family.webp"
+                            src={imgFamily} 
                             alt="familia feliz"
                             className="w-full h-full object-cover rounded-2xl md:rounded-l-3xl"
                         />
