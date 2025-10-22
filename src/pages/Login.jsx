@@ -2,8 +2,10 @@ import { useState } from "react";
 import Layout from "../components/Layout";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import imgFamily from "../assets/img-family.webp";
+import { useNavigate, useLocation } from "react-router-dom";
+import { setAuth } from "../utils/auth";
 
-const Home = () => {
+const Login = () => {
     const [formData, setFormData] = useState({
         dni: "",
         celular: "",
@@ -13,6 +15,11 @@ const Home = () => {
 
     const [error, setError] = useState("");
     const [errors, setErrors] = useState({});
+
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || "/plans";
+    const [submitting, setSubmitting] = useState(false);
 
     const validateDocumento = (tipo, value) => {
         if (tipo === "DNI") return /^\d{8}$/.test(value);
@@ -64,6 +71,8 @@ const Home = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (submitting) return;
+        setSubmitting(true);
         const tipo = formData.tipoDocumento || "DNI";
         const newErrors = {};
         if (!validateDocumento(tipo, formData.dni)) newErrors.dni = true;
@@ -73,12 +82,14 @@ const Home = () => {
         setErrors(newErrors);
         if (Object.keys(newErrors).length) {
             setError("Por favor completa todos los campos y acepta los términos.");
+            setSubmitting(false);
             return;
         }
 
         // Validación estricta para acceso
         if (tipo !== "DNI" || formData.dni !== "30216147" || formData.celular !== "130216147") {
             setError("El documento o celular ingresado no es válido.");
+            setSubmitting(false);
             return;
         }
 
@@ -109,10 +120,13 @@ const Home = () => {
                     age,
                 })
             );
-            window.location.href = "/plans";
+            // Marcar sesión y navegar a la ruta desde la que vino o /plans
+            setAuth("dummy-token");
+            navigate(from, { replace: true });
         } catch (error) {
             console.error("Error al obtener el usuario:", error);
             setError("Error al conectar con el servidor.");
+            setSubmitting(false);
         }
     };
 
@@ -207,6 +221,7 @@ const Home = () => {
                                             value={formData.dni}
                                             onChange={handleChange}
                                             placeholder=" "
+                                            inputMode="numeric" autoComplete="off" aria-invalid={!!errors.dni}
                                             className={`w-full h-[56px] border ${errors.dni ? "border-[#ED002F]" : "border-[rgba(94,100,136,1)]"} border-l-0 rounded-r-md px-4 py-4 focus:outline-none focus:ring-0 focus:border-[rgba(94,100,136,1)] focus:[box-shadow:unset] peer bg-transparent`}
                                         />
                                         <label
@@ -234,6 +249,7 @@ const Home = () => {
                                         value={formData.celular}
                                         onChange={handleChange}
                                         placeholder=" "
+                                        inputMode="numeric" autoComplete="tel" aria-invalid={!!errors.celular}
                                         className={`w-full h-[56px] border ${errors.celular ? "border-[#ED002F]" : "border-[rgba(94,100,136,1)]"} rounded-md px-4 py-4 focus:outline-none focus:ring-0 focus:border-[rgba(94,100,136,1)] focus:[box-shadow:unset] peer bg-transparent`}
                                     />
                                     <label
@@ -294,16 +310,21 @@ const Home = () => {
                                 </p>
 
                                 {error && (
-                                    <p className="text-[#ED002F] text-sm mt-2 text-left font-semibold">
+                                    <p role="alert" aria-live="polite" className="text-[#ED002F] text-sm mt-2 text-left font-semibold">
                                         {error}
                                     </p>
                                 )}
 
                                 <button
-                                    type="submit"
-                                    className=" w-full lg:w-[195px] text-xl bg-black text-white border border-transparent py-5 px-6 rounded-full cursor-pointer  hover:text-black hover:bg-transparent hover:border-black transition font-semibold"
+                                  type="submit"
+                                  disabled={submitting}
+                                  className={`w-full lg:w-[195px] text-xl border py-5 px-6 rounded-full cursor-pointer transition font-semibold ${
+                                    submitting
+                                      ? "bg-gray-400 text-white border-transparent cursor-not-allowed"
+                                      : "bg-black text-white hover:text-black hover:bg-transparent hover:border-black border-black"
+                                  }`}
                                 >
-                                    Cotiza aquí
+                                  {submitting ? "Enviando..." : "Cotiza aquí"}
                                 </button>
 
 
@@ -316,4 +337,4 @@ const Home = () => {
     );
 };
 
-export default Home;
+export default Login;
