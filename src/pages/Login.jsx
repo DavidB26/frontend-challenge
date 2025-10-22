@@ -2,6 +2,7 @@ import { useState } from "react";
 import Layout from "../components/Layout";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import imgFamily from "../assets/img-family.webp";
+import imgFamilyXs from "../assets/img-family-xs.webp";
 import { useNavigate, useLocation } from "react-router-dom";
 import { setAuth } from "../utils/auth";
 
@@ -170,7 +171,7 @@ const Login = () => {
                         </div>
                         <div className="w-[136px] max-h-[160px]   relative z-10 mb-6 md:mb-0">
                             <img
-                                src="/src/assets/img-family-xs.webp"
+                                src={imgFamilyXs}
                                 alt="familia feliz"
                                 className="w-full h-full object-cover rounded-2xl"
                             />

@@ -1,8 +1,8 @@
-// src/components/GuestRoute.jsx
-import { Navigate, Outlet } from 'react-router-dom';
-import { isAuthenticated } from '@/utils/auth';
+import { Navigate, Outlet } from "react-router-dom";
+import { isAuthenticated } from "../utils/auth";
 
 export default function GuestRoute() {
   const ok = isAuthenticated();
-  return ok ? <Outlet /> : <Navigate to="/login" replace />;
+  // If already authenticated, redirect to /plans; otherwise render nested routes (e.g., / or /login)
+  return ok ? <Navigate to="/plans" replace /> : <Outlet />;
 }
