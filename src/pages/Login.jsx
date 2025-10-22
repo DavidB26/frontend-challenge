@@ -3,7 +3,7 @@ import Layout from "../components/Layout";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import imgFamily from "../assets/img-family.webp";
 import imgFamilyXs from "../assets/img-family-xs.webp";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { setAuth } from "../utils/auth";
 
 const Login = () => {
@@ -18,8 +18,6 @@ const Login = () => {
     const [errors, setErrors] = useState({});
 
     const navigate = useNavigate();
-    const location = useLocation();
-    const from = location.state?.from?.pathname || "/plans";
     const [submitting, setSubmitting] = useState(false);
 
     const validateDocumento = (tipo, value) => {
@@ -121,9 +119,9 @@ const Login = () => {
                     age,
                 })
             );
-            // Marcar sesión y navegar a la ruta desde la que vino o /plans
+            // Marcar sesión y navegar a /plans
             setAuth("dummy-token");
-            navigate(from, { replace: true });
+            navigate("/plans", { replace: true });
         } catch (error) {
             console.error("Error al obtener el usuario:", error);
             setError("Error al conectar con el servidor.");

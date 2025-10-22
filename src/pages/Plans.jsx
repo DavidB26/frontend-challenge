@@ -6,6 +6,7 @@ import icon1 from "../assets/icon-1.webp";
 import icon2 from "../assets/icon-2.webp";
 import icon3 from "../assets/icon-3.webp";
 import icon4 from "../assets/icon-4.webp";
+import { AUTH_KEY } from "../utils/auth";
 
 
 // Helper para calcular edad desde fecha de nacimiento en formato "dd-mm-yyyy"
@@ -29,28 +30,8 @@ const Planes = () => {
     const [selectedType, setSelectedType] = useState("");
     const navigate = useNavigate();
 
-    // Bloquear navegación hacia atrás (versión mejorada)
-    useEffect(() => {
-      const handleBeforeUnload = (event) => {
-        event.preventDefault();
-        event.returnValue = ""; // muestra aviso en caso de recarga
-      };
-
-      const handlePopState = (event) => {
-        event.preventDefault();
-        navigate("/plans", { replace: true }); // evita volver al login
-      };
-
-      window.addEventListener("beforeunload", handleBeforeUnload);
-      window.addEventListener("popstate", handlePopState);
-
-      return () => {
-        window.removeEventListener("beforeunload", handleBeforeUnload);
-        window.removeEventListener("popstate", handlePopState);
-      };
-    }, [navigate]);
-
     // Carrusel refs y estado
+
     const carouselRef = useRef(null);
     const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -160,7 +141,12 @@ const Planes = () => {
     };
 
     const handleBack = () => {
-      navigate("/");
+      try {
+        localStorage.removeItem(AUTH_KEY);
+        localStorage.removeItem("userData");
+      } finally {
+        navigate("/login", { replace: true });
+      }
     };
 
     return (
